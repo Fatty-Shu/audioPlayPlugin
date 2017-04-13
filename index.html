@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>audioPlugin Demo</title>
+	<style type="text/css">
+		.circleProgress_wrapper{
+			position: relative;
+			width: 100px;
+			height: 100px;
+			overflow: hidden;
+			border-radius: 50%;
+			box-sizing: border-box;
+			cursor: pointer;
+			
+		}
+		.circleProgress_wrapper>img{
+			width: 100%;
+			height: 100%;
+		}
+		.circleProgress_wrapper:before{
+			position: absolute;
+			content: "";
+			width: 100%;
+			height: 100%;
+			background:rgba(0,0,0,0.1) url("images/viweImg.png"); 
+			background-size: cover;
+			border-radius: 50%;
+		}
+		.circleProgress_wrapper.rotate:before{
+			animation:audioLogoRotate 10s linear infinite;
+		}
+		@keyframes audioLogoRotate{
+			0%{
+				transform: rotate(0deg)
+			}
+			100%{
+				transform: rotate(360deg);
+			}
+		}
+		.circleProgress_wrapper:after{
+			position: absolute;
+			top:4px;
+			left: 4px;
+			content: "";
+			width: 92px;
+			height: 92px;
+			border-radius: 50%;
+			background:rgba(0,0,0,0.3); 
+		}
+		.slice{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			clip:rect(0,100px,100px,50px);
+		}
+		.slice.gt50{
+			clip:rect(auto,auto,auto,auto);
+		}
+		.bar,.fill{
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			border: 4px yellow solid;
+			box-sizing: border-box;
+			border-radius: 50%;
+			clip: rect(0,50px,100px,0);
+		}
+		.slice.gt50 .fill{
+			transform: rotate(180deg);
+		}
+	</style>
+</head>
+<body>
+	<div class="circleProgress_wrapper">
+	    <div id="slice_wrapper" class="slice">	
+			<div class="bar pre50"></div>
+			<div class="fill"></div>
+	    </div>
+	</div>
+
+	<script type="text/javascript" src="src/audioPlayPlugin.js"></script>
+	<script>
+		var bar=document.querySelector(".slice>.bar"),
+			process=0,
+			circleProgress=document.querySelector(".circleProgress_wrapper"),
+			slice=document.getElementById("slice_wrapper");
+		var audio=new audioController({
+						src:"file/test1.mp3",
+						events:{
+							"play":function(){
+								addClass(circleProgress,"rotate");
+							},
+							"timeupdate":function(){
+
+								process=audio.getAttr("currentTime")/audio.getAttr("duration")*360;
+								parseInt(process)===180&&addClass(slice,"gt50");
+								bar.style="transform:rotate("+(process)+"deg)";
+
+							},
+							"ended":function(){
+
+								removeClass(circleProgress,"rotate");
+								removeClass(slice,"gt50");
+								bar.style="transform:rotate(0deg)";
+
+							}
+						}
+				});
+	 	circleProgress.addEventListener("click",function(){audio.play()});
+
+	 	function addClass(element,className){
+
+	 		var oldClass=element.className;
+	 		oldClass.indexOf(className)<0&&(element.className=oldClass+" "+className);
+
+	 	}
+
+	 	function removeClass(element,className){
+
+	 		element.className=element.className.replace(new RegExp("\\s"+className),"");
+
+	 	}
+
+	</script>
+</body>
+</html>
