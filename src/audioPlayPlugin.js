@@ -32,14 +32,14 @@
     function audioController(options) {
 
         if (!(this instanceof audioController)) {
-            return new audioController()
+            return new audioController(options)
         }
-        this.audio = new Audio();
+
         var options = options || {};
-        if(options.attributes){
-           this.setAttr(options.attributes);
+        this.audio = new Audio(options.src||"");
+        if(options.attr){
+           this.setAttr(options.attr);
         };
-        this.audio.src = options.src;
         if (options.events) {
             eventsObjectValid.call(this, options.events)
         }
@@ -99,19 +99,30 @@
         };
         var autoPlayTestAudio=new audioController({
             src:obj.src,
-            attributes:{
-                preload:false
+            attr:{
+                volume:0
             },
             events:{
-                "play":suportTrue,
-                "waiting":suportTrue,
-                "suspend":function(){debugger;obj.nonsupport&&obj.nonsupport();supportAuto=false}
+                "timeupdate":suportTrue,
+                "suspend":function(){
+                    if(autoPlayTestAudio.getAttr("currentTime")===0){
+                        obj.nonsupport&&obj.nonsupport();
+                        supportAuto=false;    
+                    }
+                    
+                                   
+                    
+                }
             }
         });
-        function suportTrue(){obj.support&&!supportAuto&&obj.support();supportAuto=true};
-        //autoPlayTestAudio.play();    
-        //autoPlayTestAudio.pause();  
-
+        function suportTrue(){
+            if(obj.support&&!supportAuto){
+                obj.support();
+                supportAuto=true;                
+                autoPlayTestAudio.pause(); 
+            }
+        };
+        autoPlayTestAudio.play();  
     }
 
 
