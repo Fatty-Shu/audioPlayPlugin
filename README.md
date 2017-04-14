@@ -1,5 +1,5 @@
 # audioPlayPlugin
-&emsp;&emsp;使用DOM Audio 对象实现背景音乐播放。支持链式操作。
+&emsp;&emsp;使用DOM Audio 对象实现背景音乐播放。支持链式操作。[Demo](https://fatty-shu.github.io/audioPlayPlugin/)
 
 ## 特点
 &emsp;&emsp;1. 使用HTML DOM Audio对象实现音频控制,不需要在HTML文档中添加auido标签。  
