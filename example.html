@@ -7,8 +7,11 @@
 <body>
 	<script type="text/javascript" src="src/audioPlayPlugin.js"></script>
 	<script>
-		var bgAudio=new audioController(),process;
-/*		bgAudio.events("play",function(){console.log("开始播放了。")});
+		
+
+/*	
+		var bgAudio=new audioController();
+		bgAudio.events("play",function(){console.log("开始播放了。")});
 		bgAudio.events({
 		    "timeupdate":function(){
 		        process=bgAudio.getAttr("currentTime")/bgAudio.getAttr("duration");
@@ -20,18 +23,18 @@
 		});
 		bgAudio.play("file/test1.mp3");*/
 
+		var bgAudio=new audioController();
 		bgAudio.supportAutoPlay({
 		    src:"file/test1.mp3",
-		    support:function(){
-		       // bgAudio.play("file/test1.mp3")
-		    },
+		    support:playAudio,
 		    nonsupport:function(){
-		        document.body.addEventListener("touchstart",function(){
-
-		           // bgAudio.play("file/test1.mp3")
-		        })
+		        document.addEventListener("click",playAudio)
 		    }
 		})
+		function playAudio(){
+			bgAudio.play("file/test1.mp3");
+			document.removeEventListener("click",playAudio);
+		}
 	</script>
 </body>
 </html>
