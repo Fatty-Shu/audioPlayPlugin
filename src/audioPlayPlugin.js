@@ -69,9 +69,11 @@
 
         }
 
-        if (src) { //传入新的URL,表示播放新的音频
-
-            audio.src = src;
+        if (src) { //传入URL
+        	if(src!=audio.src){ //传入新的URL,表示播放新的音频
+        		audio.src = src;
+        		audio.load();
+        	}
             audio.play()
 
         }
@@ -105,7 +107,8 @@
             events:{
                 "timeupdate":suportTrue,
                 "suspend":function(){
-                    if(autoPlayTestAudio.getAttr("currentTime")===0){
+                    
+                    if(autoPlayTestAudio.getAttr("currentTime")!==0&&autoPlayTestAudio.getAttr("duration")){
                         obj.nonsupport&&obj.nonsupport();
                         supportAuto=false;    
                     }
