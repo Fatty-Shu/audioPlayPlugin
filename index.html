@@ -15,10 +15,6 @@
 			cursor: pointer;
 			
 		}
-		.circleProgress_wrapper>img{
-			width: 100%;
-			height: 100%;
-		}
 		.circleProgress_wrapper:before{
 			position: absolute;
 			content: "";
@@ -27,6 +23,7 @@
 			background:rgba(0,0,0,0.1) url("images/viweImg.png"); 
 			background-size: cover;
 			border-radius: 50%;
+
 		}
 		.circleProgress_wrapper.rotate:before{
 			animation:audioLogoRotate 10s linear infinite;
@@ -47,7 +44,15 @@
 			width: 192px;
 			height: 192px;
 			border-radius: 50%;
-			background:rgba(0,0,0,0.3); 
+			background-color:rgba(0,0,0,0.3); 
+			background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAoCAMAAACl6XjsAAAAaVBMVEX///8AAAD///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////9ThU/0AAAAI3RSTlPMAJDBnhcQxrqzemtSOiMGAoZfLKqkjXBECoiFhGJIRi4MC3M9axoAAACkSURBVDjLrZRLDoMwDERdwKGkTSkt/X/h/ocEsZmdPVJ46ydFGdsj4VpWaeMhN5kpDp5WyEIMlCblqXW1heZnaqA6mxrolNKk3o2WBrb7o6WBPhEa4nY1qWNwNMRtaaC5exrihmbxVltD3A9HQ9zQLC5KadKRGv0o/4X8QF5KDosfff4ixbDWkvcp9wAR50Cc81OZqvkzxfVlavDTkqWaX9Fk4U9wrwfK2T44TgAAAABJRU5ErkJggg==');
+			background-repeat:no-repeat;
+			background-position:center;
+			background-size:38px 40px;
+		}
+		.circleProgress_wrapper.rotate:after{
+			background-image:url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAiCAMAAAAJbCvNAAAAM1BMVEX///8AAAD///////////////////////////////////////////////////////////+Q8lQ3AAAAEXRSTlPmAOEXHcLcvrtvZlER1IyHDEwQIaQAAABJSURBVDjL7ctbEoAgDEPRBLWK4mP/q/XDIGUJzPT+NXOKY1u+1p2qm2D4ewTONhXCNQmkNs0BAgQYFrirCJj/Qa4i3VTZ6nSRL9xqAzIch8kgAAAAAElFTkSuQmCC');
+			background-size:.32rem .34rem;
 		}
 		.slice{
 			position: absolute;
@@ -93,21 +98,17 @@
 								addClass(circleProgress,"rotate");
 							},
 							"timeupdate":function(){
-
 								process=audio.getAttr("currentTime")/audio.getAttr("duration")*360;
 								parseInt(process)===180&&addClass(slice,"gt50");
 								bar.style="transform:rotate("+(process)+"deg)";
-
 							},
 							"pause":function(){
 								removeClass(circleProgress,"rotate");
 							},
 							"ended":function(){
-
 								removeClass(circleProgress,"rotate");
 								removeClass(slice,"gt50");
 								bar.style="transform:rotate(0deg)";
-
 							}
 						}
 				});
@@ -118,20 +119,13 @@
 	 			audio.pause()
 	 		}
 	 	});
-
 	 	function addClass(element,className){
-
 	 		var oldClass=element.className;
 	 		oldClass.indexOf(className)<0&&(element.className=oldClass+" "+className);
-
 	 	}
-
 	 	function removeClass(element,className){
-
 	 		element.className=element.className.replace(new RegExp("\\s"+className),"");
-
 	 	}
-
 	</script>
 </body>
 </html>
